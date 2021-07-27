@@ -12,11 +12,17 @@ class CurrentTime extends StatefulWidget {
 }
 
 class _CurrentTimeState extends State<CurrentTime> {
-  final DateFormat formatter = DateFormat('Hms');
-  String currTime="--:--:--";
+  final DateFormat formatter24Hour = DateFormat('Hms');
+  final DateFormat formatter12Hour = DateFormat('jms');
+
+  DateFormat currFormatter = DateFormat('Hms');
+
+  String currTime = "--:--:--";
   String currLocationCountryName;
   tz.Location currLocation;
   Timer _clockTimer;
+  bool is24Hour = true;
+
   @override
   void initState() {
     tz.initializeTimeZones();
@@ -24,7 +30,7 @@ class _CurrentTimeState extends State<CurrentTime> {
     currLocation = tz.getLocation(TimeZoneMap.map[currLocationCountryName]);
     _clockTimer = Timer.periodic(Duration(milliseconds: 200), (timer) {
       setState(() {
-        currTime = formatter.format(tz.TZDateTime.now(currLocation));
+        currTime = currFormatter.format(tz.TZDateTime.now(currLocation));
       });
     });
     super.initState();
@@ -112,6 +118,32 @@ class _CurrentTimeState extends State<CurrentTime> {
             SizedBox(
               height: 30,
             ),
+            Row(
+              children: [
+                SizedBox(
+                  width: 40,
+                ),
+                Text(
+                  is24Hour ? '24 Hour Display' : '12 Hour Display',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 24
+                  ),
+                ),
+                Switch(
+                  value: is24Hour,
+                  onChanged: (bool state) {
+                    setState(() {
+                      is24Hour = state;
+                      currFormatter =
+                          is24Hour ? formatter24Hour : formatter12Hour;
+                    });
+                  },
+                  inactiveTrackColor: Colors.blue,
+                  activeColor: Colors.blue,
+                ),
+              ],
+            )
           ],
         )),
       ),
