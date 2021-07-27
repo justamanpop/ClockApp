@@ -6,7 +6,6 @@ import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/standalone.dart' as tz;
 
-
 class CurrentTime extends StatefulWidget {
   @override
   _CurrentTimeState createState() => _CurrentTimeState();
@@ -14,29 +13,30 @@ class CurrentTime extends StatefulWidget {
 
 class _CurrentTimeState extends State<CurrentTime> {
   final DateFormat formatter = DateFormat('Hms');
-  String currTime;
+  String currTime="--:--:--";
   String currLocationCountryName;
   tz.Location currLocation;
-
+  Timer _clockTimer;
   @override
-  void initState()
-  {
+  void initState() {
     tz.initializeTimeZones();
     currLocationCountryName = TimeZoneMap.map.keys.toList()[0];
     currLocation = tz.getLocation(TimeZoneMap.map[currLocationCountryName]);
-    super.initState();
-  }
-
-  void updateTime() {
-    Timer.periodic(Duration(milliseconds: 200), (timer) {
+    _clockTimer = Timer.periodic(Duration(milliseconds: 200), (timer) {
       setState(() {
         currTime = formatter.format(tz.TZDateTime.now(currLocation));
       });
     });
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _clockTimer.cancel();
+    super.dispose();
   }
 
   Widget build(BuildContext context) {
-    updateTime();
     return Scaffold(
       body: Container(
         color: Colors.black,
@@ -46,45 +46,18 @@ class _CurrentTimeState extends State<CurrentTime> {
             SizedBox(
               height: 50,
             ),
-            Row(
-              children: <Widget>[
-                ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.black,
-                  ),
-                  child: Icon(
-                    Icons.chevron_left,
-                    color: Colors.grey,
-                    size: 50,
-                  ),
-                ),
-                Container(
-                  child: Image(
-                    image: AssetImage('flags/$currLocationCountryName.png'),
-                    height: 125,
-                    width: 190,
-                    fit: BoxFit.cover,
-                  ),
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Colors.blueAccent,
-                      width: 1,
-                    )
-                  ),
-                ),
-                ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.black,
-                  ),
-                  child: Icon(
-                    Icons.chevron_right,
-                    color: Colors.grey,
-                    size: 50,
-                  ),
-                ),
-              ],
+            Container(
+              child: Image(
+                image: AssetImage('flags/$currLocationCountryName.png'),
+                height: 125,
+                width: 190,
+                fit: BoxFit.cover,
+              ),
+              decoration: BoxDecoration(
+                  border: Border.all(
+                color: Colors.blueAccent,
+                width: 1,
+              )),
             ),
             SizedBox(
               height: 20,
@@ -95,29 +68,33 @@ class _CurrentTimeState extends State<CurrentTime> {
               ),
               child: DropdownButton<String>(
                 isExpanded: true,
-                items: TimeZoneMap.map.keys.map(
-                        (String val) => DropdownMenuItem<String>(
-                      child: Center(
-                        child: Text(val, style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 30,
-                        ),),
-                      ),
-                      value: val,
-                    )
-                ).toList(),
+                items: TimeZoneMap.map.keys
+                    .map((String val) => DropdownMenuItem<String>(
+                          child: Center(
+                            child: Text(
+                              val,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 30,
+                              ),
+                            ),
+                          ),
+                          value: val,
+                        ))
+                    .toList(),
                 value: currLocationCountryName,
-                onChanged: (String newVal){
+                onChanged: (String newVal) {
                   setState(() {
                     currLocationCountryName = newVal;
-                    currLocation = tz.getLocation(TimeZoneMap.map[currLocationCountryName]);
+                    currLocation = tz
+                        .getLocation(TimeZoneMap.map[currLocationCountryName]);
                   });
                 },
               ),
             ),
             SizedBox(
-              height:150,
+              height: 150,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -133,7 +110,7 @@ class _CurrentTimeState extends State<CurrentTime> {
               ],
             ),
             SizedBox(
-              height:30,
+              height: 30,
             ),
           ],
         )),
