@@ -13,6 +13,7 @@ class Main extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return  MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: "Clock",
       home: TabWindow(),
     );
@@ -51,12 +52,12 @@ class _TabWindowState extends State<TabWindow> {
             label: 'Clock',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.timer),
-            label: 'Screen2',
+            icon: Icon(Icons.alarm),
+            label: 'Alarm',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.alarm),
-            label: 'Screen3',
+            icon: Icon(Icons.timer),
+            label: 'Timer',
           ),
         ],
         currentIndex: _selectedIndex,

@@ -15,6 +15,8 @@ class _CurrentTimeState extends State<CurrentTime> {
   final DateFormat formatter24Hour = DateFormat('Hms');
   final DateFormat formatter12Hour = DateFormat('jms');
 
+  final DateFormat formatterDateOnly = DateFormat('yMMMMEEEEd');
+
   DateFormat currFormatter = DateFormat('Hms');
 
   String currTime = "--:--:--";
@@ -44,76 +46,45 @@ class _CurrentTimeState extends State<CurrentTime> {
 
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          'World Time',
+          style: TextStyle(
+            fontSize: 36,
+            fontWeight: FontWeight.w300,
+          ),
+        ),
+        backgroundColor: Colors.black,
+        actions: <Widget>[
+          IconButton(
+              onPressed: () {},
+              icon: Icon(
+                Icons.add,
+                color: Colors.white,
+                size: 36,
+              ))
+        ],
+      ),
       body: Container(
         color: Colors.black,
         child: Center(
             child: Column(
           children: [
-            SizedBox(
-              height: 50,
-            ),
-            Container(
-              child: Image(
-                image: AssetImage('flags/$currLocationCountryName.png'),
-                height: 125,
-                width: 190,
-                fit: BoxFit.cover,
-              ),
-              decoration: BoxDecoration(
-                  border: Border.all(
-                color: Colors.blueAccent,
-                width: 1,
-              )),
+            Divider(
+              color: Colors.grey,
+              thickness: 0.3,
             ),
             SizedBox(
-              height: 20,
+              height: 30,
             ),
-            Theme(
-              data: Theme.of(context).copyWith(
-                canvasColor: Colors.blue.shade200,
-              ),
-              child: DropdownButton<String>(
-                isExpanded: true,
-                items: TimeZoneMap.map.keys
-                    .map((String val) => DropdownMenuItem<String>(
-                          child: Center(
-                            child: Text(
-                              val,
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 30,
-                              ),
-                            ),
-                          ),
-                          value: val,
-                        ))
-                    .toList(),
-                value: currLocationCountryName,
-                onChanged: (String newVal) {
-                  setState(() {
-                    currLocationCountryName = newVal;
-                    currLocation = tz
-                        .getLocation(TimeZoneMap.map[currLocationCountryName]);
-                  });
-                },
-              ),
-            ),
-            SizedBox(
-              height: 150,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text(
-                  '$currTime',
-                  style: TextStyle(
-                      fontSize: 56,
-                      color: Colors.white,
-                      letterSpacing: 2,
-                      fontWeight: FontWeight.w700),
-                ),
-              ],
+            Text(
+              '$currTime',
+              style: TextStyle(
+                  fontSize: 52,
+                  color: Color(0xffffffff),
+                  letterSpacing: 2,
+                  fontFamily: 'DigitalDelivery',
+                  fontWeight: FontWeight.normal),
             ),
             SizedBox(
               height: 30,
@@ -121,14 +92,45 @@ class _CurrentTimeState extends State<CurrentTime> {
             Row(
               children: [
                 SizedBox(
-                  width: 40,
+                  width: 20,
+                ),
+                Text(
+                  'Indian Standard Time',
+                  style: TextStyle(color: Colors.grey, fontSize: 18),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 15,
+            ),
+            Row(
+              children: [
+                SizedBox(
+                  width: 20,
+                ),
+                Text(
+                  '${formatterDateOnly.format(tz.TZDateTime.now(currLocation))}',
+                  style: TextStyle(color: Colors.white, fontSize: 24),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 15,
+            ),
+            Divider(
+              color: Colors.grey,
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Row(
+              children: [
+                SizedBox(
+                  width: 20,
                 ),
                 Text(
                   is24Hour ? '24 Hour Display' : '12 Hour Display',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 24
-                  ),
+                  style: TextStyle(color: Colors.white, fontSize: 24),
                 ),
                 Switch(
                   value: is24Hour,
@@ -140,7 +142,7 @@ class _CurrentTimeState extends State<CurrentTime> {
                     });
                   },
                   inactiveTrackColor: Colors.blue,
-                  activeColor: Colors.blue,
+                  activeColor: Colors.blueAccent,
                 ),
               ],
             )
