@@ -15,22 +15,20 @@ class _CurrentTimeState extends State<CurrentTime> {
   final DateFormat formatter24Hour = DateFormat('Hms');
   final DateFormat formatter12Hour = DateFormat('jms');
 
+  final DateFormat formatter24HourNoSeconds = DateFormat('Hm');
+  final DateFormat formatter12HourNoSeconds = DateFormat('jm');
+
   final DateFormat formatterDateOnly = DateFormat('yMMMMEEEEd');
 
   DateFormat currFormatter = DateFormat('Hms');
+  DateFormat currFormatterNoSeconds = DateFormat('Hm');
 
   String currTime = "--:--:--";
   String currLocationCountryName;
   tz.Location currLocation;
   Timer _clockTimer;
   bool is24Hour = true;
-  List<String> listItems = <String>[
-    'Spain',
-    'Italy',
-    'England',
-    'Germany',
-    'China'
-  ];
+  List<String> listItems = <String>['Spain', 'England', 'Germany', 'China'];
 
   @override
   void initState() {
@@ -65,6 +63,7 @@ class _CurrentTimeState extends State<CurrentTime> {
         actions: <Widget>[
           IconButton(
               onPressed: () {},
+              tooltip: 'Add a location to track',
               icon: Icon(
                 Icons.add,
                 color: Colors.white,
@@ -146,6 +145,9 @@ class _CurrentTimeState extends State<CurrentTime> {
                       is24Hour = state;
                       currFormatter =
                           is24Hour ? formatter24Hour : formatter12Hour;
+                      currFormatterNoSeconds = is24Hour
+                          ? formatter24HourNoSeconds
+                          : formatter12HourNoSeconds;
                     });
                   },
                   inactiveTrackColor: Colors.blue,
@@ -162,24 +164,78 @@ class _CurrentTimeState extends State<CurrentTime> {
             ),
             Expanded(
               child: ListView.builder(
-                scrollDirection: Axis.vertical,
-                shrinkWrap: true,
-                itemCount: listItems.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return ListTile(
-                    title: Text('${listItems[index]}', style: TextStyle(color: Colors.white),),
-                    subtitle: Text('XXXX Standard Time', style: TextStyle(color: Colors.white),),
-                    trailing: ConstrainedBox(
-                        constraints: BoxConstraints.tightFor(width: 25, height: 25),
-                        child: ElevatedButton(style: ElevatedButton.styleFrom(padding:EdgeInsets.fromLTRB(0,0,5,0), primary: Colors.red), child: Icon(Icons.remove,color: Colors.white,), onPressed: () {}, )),
-                    focusColor: Colors.yellow,
-                  );
-                }
-              ),
+                  scrollDirection: Axis.vertical,
+                  shrinkWrap: true,
+                  itemCount: listItems.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return ListTile(
+                      leading: CircleAvatar(
+                        backgroundImage:AssetImage('flags/${listItems[index]}.png') ,
+                        radius: 25,
+                      ),
+                      title: Text(
+                        '${listItems[index]}    ${currFormatterNoSeconds.format(tz.TZDateTime.now(tz.getLocation(TimeZoneMap.map[listItems[index]])))}',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      subtitle: Text(
+                        'XXXX Standard Time',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      trailing: ConstrainedBox(
+                          constraints:
+                              BoxConstraints.tightFor(width: 25, height: 25),
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                padding: EdgeInsets.fromLTRB(0, 0, 5, 0),
+                                primary: Colors.red),
+                            child: Icon(
+                              Icons.remove,
+                              color: Colors.white,
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                deleteData(index);
+                              });
+                            },
+                          )),
+                      focusColor: Colors.yellow,
+                    );
+                  }),
             )
           ],
         ),
       ),
     );
   }
+
+  Future<void> deleteData(int index) async {
+    AlertDialog alert = AlertDialog(
+      title: Text("Stop tracking",style: TextStyle(color: Colors.black),),
+      content: Text("Are you sure you want to stop tracking the time in ${listItems[index]}?",style: TextStyle(color: Colors.black),),
+      backgroundColor: Color(0xff004ecb),
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(30),
+      ),
+      actions: [
+        TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: Text('Cancel',style: TextStyle(color: Colors.black)), ),
+        TextButton(
+            onPressed: () async {
+              listItems.removeAt(index);
+              Navigator.of(context).pop();
+            },
+            child: Text('Continue',style: TextStyle(color: Colors.black),)),
+      ],
+    );
+
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return alert;
+        });
+  }
+
 }
