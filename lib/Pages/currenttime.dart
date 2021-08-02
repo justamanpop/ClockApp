@@ -24,6 +24,13 @@ class _CurrentTimeState extends State<CurrentTime> {
   tz.Location currLocation;
   Timer _clockTimer;
   bool is24Hour = true;
+  List<String> listItems = <String>[
+    'Spain',
+    'Italy',
+    'England',
+    'Germany',
+    'China'
+  ];
 
   @override
   void initState() {
@@ -67,8 +74,7 @@ class _CurrentTimeState extends State<CurrentTime> {
       ),
       body: Container(
         color: Colors.black,
-        child: Center(
-            child: Column(
+        child: Column(
           children: [
             Divider(
               color: Colors.grey,
@@ -101,7 +107,7 @@ class _CurrentTimeState extends State<CurrentTime> {
               ],
             ),
             SizedBox(
-              height: 15,
+              height: 10,
             ),
             Row(
               children: [
@@ -119,6 +125,7 @@ class _CurrentTimeState extends State<CurrentTime> {
             ),
             Divider(
               color: Colors.grey,
+              thickness: 0.3,
             ),
             SizedBox(
               height: 10,
@@ -145,9 +152,33 @@ class _CurrentTimeState extends State<CurrentTime> {
                   activeColor: Colors.blueAccent,
                 ),
               ],
+            ),
+            SizedBox(
+              height: 0.5,
+            ),
+            Divider(
+              color: Colors.grey,
+              thickness: 0.3,
+            ),
+            Expanded(
+              child: ListView.builder(
+                scrollDirection: Axis.vertical,
+                shrinkWrap: true,
+                itemCount: listItems.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return ListTile(
+                    title: Text('${listItems[index]}', style: TextStyle(color: Colors.white),),
+                    subtitle: Text('XXXX Standard Time', style: TextStyle(color: Colors.white),),
+                    trailing: ConstrainedBox(
+                        constraints: BoxConstraints.tightFor(width: 25, height: 25),
+                        child: ElevatedButton(style: ElevatedButton.styleFrom(padding:EdgeInsets.fromLTRB(0,0,5,0), primary: Colors.red), child: Icon(Icons.remove,color: Colors.white,), onPressed: () {}, )),
+                    focusColor: Colors.yellow,
+                  );
+                }
+              ),
             )
           ],
-        )),
+        ),
       ),
     );
   }
