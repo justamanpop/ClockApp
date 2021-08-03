@@ -58,14 +58,24 @@ class _AddLocationState extends State<AddLocation> {
                 style: TextStyle(
                   color: Color(0xffc2c2c2),
                 ),
-                onChanged: (String val) {},
+                onChanged: (String val) {
+                  setState(() {
+                    filteredCountryNames = allCountryNames.where((countryName) => countryName.toLowerCase().contains(val.toLowerCase())).toList();
+                  });
+                },
               ),
               trailing: IconButton(
-                  icon: new Icon(
-                    Icons.cancel,
-                    color: Color(0xffc2c2c2),
-                  ),
-                  onPressed: () => searchBarController.clear()),
+                icon: new Icon(
+                  Icons.cancel,
+                  color: Color(0xffc2c2c2),
+                ),
+                onPressed: () {
+                  searchBarController.clear();
+                  setState(() {
+                    filteredCountryNames = allCountryNames;
+                  });
+                },
+              ),
             ),
           ),
         ),

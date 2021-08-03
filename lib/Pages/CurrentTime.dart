@@ -189,13 +189,12 @@ class _CurrentTimeState extends State<CurrentTime> {
                       ),
                       trailing: ConstrainedBox(
                           constraints:
-                              BoxConstraints.tightFor(width: 25, height: 25),
+                              BoxConstraints.tightFor(width: 47, height: 25),
                           child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                                padding: EdgeInsets.fromLTRB(0, 0, 5, 0),
-                                primary: Colors.red),
+                                primary: Colors.black),
                             child: Icon(
-                              Icons.remove,
+                              Icons.delete,
                               color: Colors.white,
                             ),
                             onPressed: () {
