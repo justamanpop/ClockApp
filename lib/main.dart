@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:customclockapp/Pages/currenttime.dart';
+import 'package:customclockapp/Pages/CurrentTime.dart';
 import 'package:customclockapp/Pages/screen2.dart';
 import 'package:customclockapp/Pages/screen3.dart';
 

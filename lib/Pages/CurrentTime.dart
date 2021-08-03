@@ -1,4 +1,5 @@
-import 'package:customclockapp/Utils/TimeZoneMap.dart';
+import 'package:customclockapp/Utils/TimeZoneUtils.dart';
+import 'package:customclockapp/Pages/AddLocation.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:intl/intl.dart';
@@ -33,8 +34,8 @@ class _CurrentTimeState extends State<CurrentTime> {
   @override
   void initState() {
     tz.initializeTimeZones();
-    currLocationCountryName = TimeZoneMap.map.keys.toList()[0];
-    currLocation = tz.getLocation(TimeZoneMap.map[currLocationCountryName]);
+    currLocationCountryName = TimeZoneUtils.mapForTzMethod.keys.toList()[0];
+    currLocation = tz.getLocation(TimeZoneUtils.mapForTzMethod[currLocationCountryName]);
     _clockTimer = Timer.periodic(Duration(milliseconds: 200), (timer) {
       setState(() {
         currTime = currFormatter.format(tz.TZDateTime.now(currLocation));
@@ -62,7 +63,12 @@ class _CurrentTimeState extends State<CurrentTime> {
         backgroundColor: Colors.black,
         actions: <Widget>[
           IconButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => AddLocation()),
+                );
+              },
               tooltip: 'Add a location to track',
               icon: Icon(
                 Icons.add,
@@ -174,11 +180,11 @@ class _CurrentTimeState extends State<CurrentTime> {
                         radius: 25,
                       ),
                       title: Text(
-                        '${listItems[index]}    ${currFormatterNoSeconds.format(tz.TZDateTime.now(tz.getLocation(TimeZoneMap.map[listItems[index]])))}',
+                        '${listItems[index]}    ${currFormatterNoSeconds.format(tz.TZDateTime.now(tz.getLocation(TimeZoneUtils.mapForTzMethod[listItems[index]])))}',
                         style: TextStyle(color: Colors.white),
                       ),
                       subtitle: Text(
-                        'XXXX Standard Time',
+                        TimeZoneUtils.isSummerEurope()?TimeZoneUtils.mapForTimeZoneNameSummer[listItems[index]]:TimeZoneUtils.mapForTimeZoneNameWinter[listItems[index]],
                         style: TextStyle(color: Colors.white),
                       ),
                       trailing: ConstrainedBox(
