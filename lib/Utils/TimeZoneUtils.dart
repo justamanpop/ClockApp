@@ -31,4 +31,7 @@ class TimeZoneUtils {
     //TODO
     return true;
   }
+
+  //TODO make this read from database instead
+  static List<String> savedCountries =[];
 }

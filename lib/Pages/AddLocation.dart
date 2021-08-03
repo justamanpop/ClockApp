@@ -1,9 +1,11 @@
+import 'package:customclockapp/Pages/CurrentTime.dart';
 import 'package:customclockapp/Utils/TimeZoneUtils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/standalone.dart' as tz;
+import 'package:another_flushbar/flushbar.dart';
 
 class AddLocation extends StatefulWidget {
   const AddLocation({Key key}) : super(key: key);
@@ -93,6 +95,11 @@ class _AddLocationState extends State<AddLocation> {
             itemCount: filteredCountryNames.length,
             itemBuilder: (BuildContext context, int index) {
               return ListTile(
+                onTap: (){
+                  TimeZoneUtils.savedCountries.add(filteredCountryNames[index]);
+                  Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => CurrentTime()), (Route<dynamic> route) => false);
+                  confirmAddition(index);
+                },
                 leading: CircleAvatar(
                   backgroundImage:
                       AssetImage('flags/${filteredCountryNames[index]}.png'),
@@ -120,5 +127,13 @@ class _AddLocationState extends State<AddLocation> {
         ),
       ],
     );
+  }
+
+  Future<void> confirmAddition(int index) async {
+    await Flushbar(
+      messageText: Text("${filteredCountryNames[index]} was successfully added!",style: TextStyle(color: Color(0xff003c8f)),),
+      duration: Duration(seconds: 3),
+      backgroundColor: Color(0xff48a999),
+    ).show(context);
   }
 }

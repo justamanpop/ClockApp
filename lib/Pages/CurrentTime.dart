@@ -29,7 +29,6 @@ class _CurrentTimeState extends State<CurrentTime> {
   tz.Location currLocation;
   Timer _clockTimer;
   bool is24Hour = true;
-  List<String> listItems = <String>['Spain', 'England', 'Germany', 'China'];
 
   @override
   void initState() {
@@ -172,19 +171,19 @@ class _CurrentTimeState extends State<CurrentTime> {
               child: ListView.builder(
                   scrollDirection: Axis.vertical,
                   shrinkWrap: true,
-                  itemCount: listItems.length,
+                  itemCount: TimeZoneUtils.savedCountries.length,
                   itemBuilder: (BuildContext context, int index) {
                     return ListTile(
                       leading: CircleAvatar(
-                        backgroundImage:AssetImage('flags/${listItems[index]}.png') ,
+                        backgroundImage:AssetImage('flags/${TimeZoneUtils.savedCountries[index]}.png') ,
                         radius: 25,
                       ),
                       title: Text(
-                        '${listItems[index]}    ${currFormatterNoSeconds.format(tz.TZDateTime.now(tz.getLocation(TimeZoneUtils.mapForTzMethod[listItems[index]])))}',
+                        '${TimeZoneUtils.savedCountries[index]}    ${currFormatterNoSeconds.format(tz.TZDateTime.now(tz.getLocation(TimeZoneUtils.mapForTzMethod[TimeZoneUtils.savedCountries[index]])))}',
                         style: TextStyle(color: Colors.white),
                       ),
                       subtitle: Text(
-                        TimeZoneUtils.isSummerEurope()?TimeZoneUtils.mapForTimeZoneNameSummer[listItems[index]]:TimeZoneUtils.mapForTimeZoneNameWinter[listItems[index]],
+                        TimeZoneUtils.isSummerEurope()?TimeZoneUtils.mapForTimeZoneNameSummer[TimeZoneUtils.savedCountries[index]]:TimeZoneUtils.mapForTimeZoneNameWinter[TimeZoneUtils.savedCountries[index]],
                         style: TextStyle(color: Colors.white),
                       ),
                       trailing: ConstrainedBox(
@@ -216,7 +215,7 @@ class _CurrentTimeState extends State<CurrentTime> {
   Future<void> deleteData(int index) async {
     AlertDialog alert = AlertDialog(
       title: Text("Stop tracking",style: TextStyle(color: Colors.black),),
-      content: Text("Are you sure you want to stop tracking the time in ${listItems[index]}?",style: TextStyle(color: Colors.black),),
+      content: Text("Are you sure you want to stop tracking the time in ${TimeZoneUtils.savedCountries[index]}?",style: TextStyle(color: Colors.black),),
       backgroundColor: Color(0xff004ecb),
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30),
@@ -229,7 +228,8 @@ class _CurrentTimeState extends State<CurrentTime> {
             child: Text('Cancel',style: TextStyle(color: Colors.black)), ),
         TextButton(
             onPressed: () async {
-              listItems.removeAt(index);
+              TimeZoneUtils.savedCountries.removeAt(index);
+              //TODO make this update database too
               Navigator.of(context).pop();
             },
             child: Text('Continue',style: TextStyle(color: Colors.black),)),
