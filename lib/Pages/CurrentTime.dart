@@ -104,9 +104,15 @@ class _CurrentTimeState extends State<CurrentTime> {
                 SizedBox(
                   width: 20,
                 ),
-                Text(
-                  'Indian Standard Time',
-                  style: TextStyle(color: Colors.grey, fontSize: 18),
+                Row(
+                  children: [
+                    Image.asset('flags/India.png',height: 36,width: 36,),
+                    SizedBox(width: 10,),
+                    Text(
+                      'Indian Standard Time',
+                      style: TextStyle(color: Colors.grey, fontSize: 18),
+                    ),
+                  ],
                 ),
               ],
             ),
@@ -168,7 +174,16 @@ class _CurrentTimeState extends State<CurrentTime> {
               thickness: 0.3,
             ),
             Expanded(
-              child: ListView.builder(
+              child: TimeZoneUtils.savedCountries.length==0?Column(
+                children: [
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text('Track time in other locations by clicking on the the + in the top right of the screen',
+                    style: TextStyle(color: Color(0xff0080cb),fontSize: 20, wordSpacing: 1, height: 1.3),),
+                ],
+              ):
+                ListView.builder(
                   scrollDirection: Axis.vertical,
                   shrinkWrap: true,
                   itemCount: TimeZoneUtils.savedCountries.length,

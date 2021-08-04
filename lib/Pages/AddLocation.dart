@@ -62,7 +62,11 @@ class _AddLocationState extends State<AddLocation> {
                 ),
                 onChanged: (String val) {
                   setState(() {
-                    filteredCountryNames = allCountryNames.where((countryName) => countryName.toLowerCase().contains(val.toLowerCase())).toList();
+                    filteredCountryNames = allCountryNames
+                        .where((countryName) => countryName
+                            .toLowerCase()
+                            .contains(val.toLowerCase()))
+                        .toList();
                   });
                 },
               ),
@@ -81,57 +85,72 @@ class _AddLocationState extends State<AddLocation> {
             ),
           ),
         ),
-        Card(
+        Material(
           color: Colors.black,
-          child: ListView.separated(
-            separatorBuilder: (context, index) {
-              return Divider(
-                color: Colors.grey,
-                thickness: 0.3,
-              );
-            },
-            shrinkWrap: true,
-            scrollDirection: Axis.vertical,
-            itemCount: filteredCountryNames.length,
-            itemBuilder: (BuildContext context, int index) {
-              return ListTile(
-                onTap: (){
-                  TimeZoneUtils.savedCountries.add(filteredCountryNames[index]);
-                  Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => CurrentTime()), (Route<dynamic> route) => false);
-                  confirmAddition(index);
+          child: Container(
+            height: 590,
+            child: Scrollbar(
+              child: ListView.builder(
+                shrinkWrap: true,
+                scrollDirection: Axis.vertical,
+                itemCount: filteredCountryNames.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return Column(
+                    children: [
+                      ListTile(
+                        onTap: () {
+                          TimeZoneUtils.savedCountries
+                              .add(filteredCountryNames[index]);
+                          Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => CurrentTime()),
+                              (Route<dynamic> route) => false);
+                          confirmAddition(index);
+                        },
+                        leading: CircleAvatar(
+                          backgroundImage: AssetImage(
+                              'flags/${filteredCountryNames[index]}.png'),
+                          radius: 25,
+                        ),
+                        title: Text(
+                          '${filteredCountryNames[index]}  ${formatterNoSeconds.format(tz.TZDateTime.now(tz.getLocation(TimeZoneUtils.mapForTzMethod[filteredCountryNames[index]])))}',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        subtitle: Text(
+                          TimeZoneUtils.isSummerEurope()
+                              ? TimeZoneUtils.mapForTimeZoneNameSummer[
+                                  filteredCountryNames[index]]
+                              : TimeZoneUtils.mapForTimeZoneNameWinter[
+                                  filteredCountryNames[index]],
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                      Divider(
+                        color: Colors.grey,
+                        thickness: 0.3,
+                      ),
+                    ],
+                  );
                 },
-                leading: CircleAvatar(
-                  backgroundImage:
-                      AssetImage('flags/${filteredCountryNames[index]}.png'),
-                  radius: 25,
-                ),
-                title: Text(
-                  '${filteredCountryNames[index]}  ${formatterNoSeconds.format(tz.TZDateTime.now(tz.getLocation(TimeZoneUtils.mapForTzMethod[filteredCountryNames[index]])))}',
-                  style: TextStyle(color: Colors.white),
-                ),
-                subtitle: Text(
-                  TimeZoneUtils.isSummerEurope()
-                      ? TimeZoneUtils
-                          .mapForTimeZoneNameSummer[filteredCountryNames[index]]
-                      : TimeZoneUtils.mapForTimeZoneNameWinter[
-                          filteredCountryNames[index]],
-                  style: TextStyle(color: Colors.white),
-                ),
-              );
-            },
+              ),
+            ),
           ),
         ),
-        Divider(
-          color: Colors.grey,
-          thickness: 0.3,
-        ),
+        SizedBox(height: 25,),
+        ElevatedButton(onPressed: (){
+          Navigator.of(context).pop();
+        }, child: Text('Back')),
       ],
     );
   }
 
   Future<void> confirmAddition(int index) async {
     await Flushbar(
-      messageText: Text("${filteredCountryNames[index]} was successfully added!",style: TextStyle(color: Color(0xff003c8f)),),
+      messageText: Text(
+        "${filteredCountryNames[index]} was successfully added!",
+        style: TextStyle(color: Color(0xff003c8f)),
+      ),
       duration: Duration(seconds: 3),
       backgroundColor: Color(0xff48a999),
     ).show(context);
