@@ -199,6 +199,8 @@ class _CurrentTimeState extends State<CurrentTime> {
                     Container(
                       height: 280,
                       child: Scrollbar(
+                        isAlwaysShown: true,
+                        thickness: 2.5,
                         child: ListView.builder(
                           scrollDirection: Axis.vertical,
                           shrinkWrap: true,
