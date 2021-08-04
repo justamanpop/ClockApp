@@ -1,3 +1,5 @@
+import 'package:customclockapp/Pages/screen2.dart';
+import 'package:customclockapp/Pages/screen3.dart';
 import 'package:customclockapp/Utils/TimeZoneUtils.dart';
 import 'package:customclockapp/Pages/AddLocation.dart';
 import 'package:flutter/material.dart';
@@ -30,6 +32,8 @@ class _CurrentTimeState extends State<CurrentTime> {
   Timer _clockTimer;
   bool is24Hour = true;
 
+  static List<Widget> _widgetOptions = <Widget>[CurrentTime(),ScreenTwo(),ScreenThree()];
+
   @override
   void initState() {
     tz.initializeTimeZones();
@@ -47,6 +51,12 @@ class _CurrentTimeState extends State<CurrentTime> {
   void dispose() {
     _clockTimer.cancel();
     super.dispose();
+  }
+
+  void _onItemTapped(int index) {
+    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
+        builder: (context) => _widgetOptions[index]),
+            (Route<dynamic> route) => false);
   }
 
   Widget build(BuildContext context) {
@@ -173,7 +183,8 @@ class _CurrentTimeState extends State<CurrentTime> {
               color: Colors.grey,
               thickness: 0.3,
             ),
-            Expanded(
+            Material(
+              color: Colors.black,
               child: TimeZoneUtils.savedCountries.length==0?Column(
                 children: [
                   SizedBox(
@@ -183,47 +194,81 @@ class _CurrentTimeState extends State<CurrentTime> {
                     style: TextStyle(color: Color(0xff0080cb),fontSize: 20, wordSpacing: 1, height: 1.3),),
                 ],
               ):
-                ListView.builder(
-                  scrollDirection: Axis.vertical,
-                  shrinkWrap: true,
-                  itemCount: TimeZoneUtils.savedCountries.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return ListTile(
-                      leading: CircleAvatar(
-                        backgroundImage:AssetImage('flags/${TimeZoneUtils.savedCountries[index]}.png') ,
-                        radius: 25,
+                Column(
+                  children: [
+                    Container(
+                      height: 280,
+                      child: Scrollbar(
+                        child: ListView.builder(
+                          scrollDirection: Axis.vertical,
+                          shrinkWrap: true,
+                          itemCount: TimeZoneUtils.savedCountries.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return ListTile(
+                              leading: CircleAvatar(
+                                backgroundImage:AssetImage('flags/${TimeZoneUtils.savedCountries[index]}.png') ,
+                                radius: 25,
+                              ),
+                              title: Text(
+                                '${TimeZoneUtils.savedCountries[index]}    ${currFormatterNoSeconds.format(tz.TZDateTime.now(tz.getLocation(TimeZoneUtils.mapForTzMethod[TimeZoneUtils.savedCountries[index]])))}',
+                                style: TextStyle(color: Colors.white),
+                              ),
+                              subtitle: Text(
+                                TimeZoneUtils.isSummerEurope()?TimeZoneUtils.mapForTimeZoneNameSummer[TimeZoneUtils.savedCountries[index]]:TimeZoneUtils.mapForTimeZoneNameWinter[TimeZoneUtils.savedCountries[index]],
+                                style: TextStyle(color: Colors.white),
+                              ),
+                              trailing: ConstrainedBox(
+                                  constraints:
+                                      BoxConstraints.tightFor(width: 47, height: 25),
+                                  child: ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                        primary: Colors.black),
+                                    child: Icon(
+                                      Icons.delete,
+                                      color: Colors.white,
+                                    ),
+                                    onPressed: () {
+                                      setState(() {
+                                        deleteData(index);
+                                      });
+                                    },
+                                  )),
+                              focusColor: Colors.yellow,
+                            );
+                          }),
                       ),
-                      title: Text(
-                        '${TimeZoneUtils.savedCountries[index]}    ${currFormatterNoSeconds.format(tz.TZDateTime.now(tz.getLocation(TimeZoneUtils.mapForTzMethod[TimeZoneUtils.savedCountries[index]])))}',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      subtitle: Text(
-                        TimeZoneUtils.isSummerEurope()?TimeZoneUtils.mapForTimeZoneNameSummer[TimeZoneUtils.savedCountries[index]]:TimeZoneUtils.mapForTimeZoneNameWinter[TimeZoneUtils.savedCountries[index]],
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      trailing: ConstrainedBox(
-                          constraints:
-                              BoxConstraints.tightFor(width: 47, height: 25),
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                                primary: Colors.black),
-                            child: Icon(
-                              Icons.delete,
-                              color: Colors.white,
-                            ),
-                            onPressed: () {
-                              setState(() {
-                                deleteData(index);
-                              });
-                            },
-                          )),
-                      focusColor: Colors.yellow,
-                    );
-                  }),
-            )
+                    ),
+                    Divider(
+                      color: Colors.grey,
+                      thickness: 0.3,
+                    ),
+                  ],
+                ),
+            ),
           ],
         ),
       ),
+      bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Colors.black,
+        unselectedItemColor: Colors.white,
+        items: <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.access_time),
+            label: 'Clock',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.alarm),
+            label: 'Alarm',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.timer),
+            label: 'Timer',
+          ),
+        ],
+        currentIndex: 0,
+        selectedItemColor: Colors.blueAccent,
+        onTap: _onItemTapped,
+      )
     );
   }
 
