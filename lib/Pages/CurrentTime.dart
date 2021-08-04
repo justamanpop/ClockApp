@@ -229,25 +229,27 @@ class _CurrentTimeState extends State<CurrentTime> {
 
   Future<void> deleteData(int index) async {
     AlertDialog alert = AlertDialog(
-      title: Text("Stop tracking",style: TextStyle(color: Colors.black),),
-      content: Text("Are you sure you want to stop tracking the time in ${TimeZoneUtils.savedCountries[index]}?",style: TextStyle(color: Colors.black),),
-      backgroundColor: Color(0xff004ecb),
+      title: Text("Stop tracking",style: TextStyle(color: Colors.white),),
+      content: Text("Are you sure you want to stop tracking the time in ${TimeZoneUtils.savedCountries[index]}?",style: TextStyle(color: Colors.white),),
+      backgroundColor: Colors.black,
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30),
+         side: BorderSide(color: Color(0xffc2c2c2),),
       ),
+      insetPadding: EdgeInsets.all(40),
       actions: [
         TextButton(
             onPressed: () {
               Navigator.of(context).pop();
             },
-            child: Text('Cancel',style: TextStyle(color: Colors.black)), ),
+            child: Text('Cancel',style: TextStyle(color: Colors.blueAccent)), ),
         TextButton(
             onPressed: () async {
               TimeZoneUtils.savedCountries.removeAt(index);
               //TODO make this update database too
               Navigator.of(context).pop();
             },
-            child: Text('Continue',style: TextStyle(color: Colors.black),)),
+            child: Text('Continue',style: TextStyle(color: Colors.blueAccent),)),
       ],
     );
 
