@@ -3,6 +3,7 @@ import 'package:customclockapp/Pages/screen2.dart';
 import 'package:customclockapp/Pages/screen3.dart';
 import 'package:customclockapp/Utils/TimeZoneMaps.dart';
 import 'package:customclockapp/Pages/AddLocation.dart';
+import 'package:customclockapp/Utils/TimeZoneUtilFunctions.dart';
 import 'package:customclockapp/Utils/UserPreferences.dart';
 import 'package:customclockapp/main.dart';
 import 'package:flutter/material.dart';
@@ -168,7 +169,7 @@ class _CurrentTimeState extends State<CurrentTime> {
                     width: 25,
                   ),
                   Text(
-                    '${TimeZoneMaps.isSummerEurope() ? TimeZoneMaps.mapForTimeZoneNameSummer[UserPreferences.currLocation] : TimeZoneMaps.mapForTimeZoneNameWinter[UserPreferences.currLocation]}',
+                    '${TimeZoneUtilFunctions.getTimeZoneNameOfLocation(UserPreferences.currLocation)}',
                     style: TextStyle(color: Colors.grey, fontSize: 18),
                   ),
                 ],
@@ -274,15 +275,7 @@ class _CurrentTimeState extends State<CurrentTime> {
                                         style: TextStyle(color: Colors.white),
                                       ),
                                       subtitle: Text(
-                                        TimeZoneMaps.isSummerEurope()
-                                            ? TimeZoneMaps
-                                                    .mapForTimeZoneNameSummer[
-                                        UserPreferences.savedLocations
-                                                    .elementAt(index)]
-                                            : TimeZoneMaps
-                                                    .mapForTimeZoneNameWinter[
-                                        UserPreferences.savedLocations
-                                                    .elementAt(index)],
+                                        TimeZoneUtilFunctions.getTimeZoneNameOfLocation(UserPreferences.savedLocations.elementAt(index)),
                                         style: TextStyle(color: Colors.white),
                                       ),
                                       trailing: ConstrainedBox(
@@ -321,8 +314,8 @@ class _CurrentTimeState extends State<CurrentTime> {
           unselectedItemColor: Colors.white,
           items: <BottomNavigationBarItem>[
             BottomNavigationBarItem(
-              icon: Icon(Icons.access_time),
-              label: 'Clock',
+              icon: Icon(Icons.language),
+              label: 'World Clock',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.alarm),

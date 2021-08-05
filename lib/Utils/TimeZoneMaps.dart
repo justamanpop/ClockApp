@@ -1,4 +1,4 @@
-import 'package:customclockapp/Utils/CountryTimeZoneCategories.dart';
+import 'package:customclockapp/Utils/LocationTimeZoneCategories.dart';
 
 class TimeZoneMaps {
   
@@ -35,15 +35,15 @@ class TimeZoneMaps {
     'Singapore' : 'Singapore Standard Time'
   };
 
-  static Map<String,CountryTimeZoneCategories> mapCountryToTZCategory = {
-    'India':CountryTimeZoneCategories.noDaylightSavings,
-    'Germany': CountryTimeZoneCategories.europe,
-    'England': CountryTimeZoneCategories.europe,
-    'Japan' : CountryTimeZoneCategories.noDaylightSavings,
-    'Spain': CountryTimeZoneCategories.europe,
-    'Singapore' : CountryTimeZoneCategories.noDaylightSavings,
-    'France': CountryTimeZoneCategories.europe,
-    'China': CountryTimeZoneCategories.noDaylightSavings
+  static Map<String,LocationTimeZoneCategories> mapCountryToTimeZoneCategory = {
+    'India':LocationTimeZoneCategories.noDaylightSavings,
+    'Germany': LocationTimeZoneCategories.mostOfEurope,
+    'England': LocationTimeZoneCategories.mostOfEurope,
+    'Japan' : LocationTimeZoneCategories.noDaylightSavings,
+    'Spain': LocationTimeZoneCategories.mostOfEurope,
+    'Singapore' : LocationTimeZoneCategories.noDaylightSavings,
+    'France': LocationTimeZoneCategories.mostOfEurope,
+    'China': LocationTimeZoneCategories.noDaylightSavings
   };
 
   static bool isSummerEurope()

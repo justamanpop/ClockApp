@@ -1,0 +1,4 @@
+enum LocationTimeZoneCategories {
+  noDaylightSavings,
+  mostOfEurope
+}

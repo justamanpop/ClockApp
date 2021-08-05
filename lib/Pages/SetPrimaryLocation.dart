@@ -1,5 +1,6 @@
 import 'package:customclockapp/Pages/CurrentTime.dart';
 import 'package:customclockapp/Utils/TimeZoneMaps.dart';
+import 'package:customclockapp/Utils/TimeZoneUtilFunctions.dart';
 import 'package:customclockapp/Utils/UserPreferences.dart';
 import 'package:customclockapp/main.dart';
 import 'package:flutter/cupertino.dart';
@@ -126,11 +127,7 @@ class _SetPrimaryLocationState extends State<SetPrimaryLocation> {
                           style: TextStyle(color: Colors.white),
                         ),
                         subtitle: Text(
-                          TimeZoneMaps.isSummerEurope()
-                              ? TimeZoneMaps.mapForTimeZoneNameSummer[
-                                  filteredCountryNames[index]]
-                              : TimeZoneMaps.mapForTimeZoneNameWinter[
-                                  filteredCountryNames[index]],
+                          TimeZoneUtilFunctions.getTimeZoneNameOfLocation(filteredCountryNames[index]),
                           style: TextStyle(color: Colors.white),
                         ),
                       ),
