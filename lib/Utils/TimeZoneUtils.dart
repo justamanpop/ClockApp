@@ -42,9 +42,7 @@ class TimeZoneUtils {
     return true;
   }
 
-  //TODO make this read from database instead
   static LinkedHashSet<String> savedCountries = prefs.getStringList('savedCountries').toSet();
 
-  //TODO load this from database or some saved preference
   static String currCountry = prefs.getString('currCountry');
 }

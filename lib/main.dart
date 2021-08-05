@@ -28,6 +28,13 @@ void main() async{
         prefs.setStringList('savedCountries', []);
       }
 
+      //if time display format doesn't exist in shared prefs
+      if(!prefs.containsKey('is24Hour'))
+      {
+        debugPrint('FIRST TIME is24Hour');
+        prefs.setBool('is24Hour', true);
+      }
+
       runApp(MaterialApp(
         title: 'CLock App',
         home:CurrentTime(),

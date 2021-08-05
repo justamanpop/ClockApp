@@ -3,6 +3,7 @@ import 'package:customclockapp/Pages/screen2.dart';
 import 'package:customclockapp/Pages/screen3.dart';
 import 'package:customclockapp/Utils/TimeZoneUtils.dart';
 import 'package:customclockapp/Pages/AddLocation.dart';
+import 'package:customclockapp/main.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:intl/intl.dart';
@@ -31,7 +32,7 @@ class _CurrentTimeState extends State<CurrentTime> {
   String currLocationCountryName;
   tz.Location currLocation;
   Timer _clockTimer;
-  bool is24Hour = true;
+  bool is24Hour = prefs.getBool('is24Hour');
 
   static List<Widget> _widgetOptions = <Widget>[
     CurrentTime(),
@@ -42,6 +43,11 @@ class _CurrentTimeState extends State<CurrentTime> {
   @override
   void initState() {
     tz.initializeTimeZones();
+
+    currFormatter = is24Hour ? formatter24Hour : formatter12Hour;
+    currFormatterNoSeconds =
+        is24Hour ? formatter24HourNoSeconds : formatter12HourNoSeconds;
+
     currLocationCountryName = TimeZoneUtils.currCountry;
     currLocation =
         tz.getLocation(TimeZoneUtils.mapForTzMethod[currLocationCountryName]);
@@ -204,6 +210,7 @@ class _CurrentTimeState extends State<CurrentTime> {
                     onChanged: (bool state) {
                       setState(() {
                         is24Hour = state;
+                        prefs.setBool('is24Hour', is24Hour);
                         currFormatter =
                             is24Hour ? formatter24Hour : formatter12Hour;
                         currFormatterNoSeconds = is24Hour
