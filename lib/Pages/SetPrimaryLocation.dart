@@ -11,7 +11,9 @@ import 'package:timezone/standalone.dart' as tz;
 import 'package:another_flushbar/flushbar.dart';
 
 class SetPrimaryLocation extends StatefulWidget {
-  const SetPrimaryLocation({Key key}) : super(key: key);
+  final bool is24Hour;
+
+  const SetPrimaryLocation(this.is24Hour);
 
   @override
   _SetPrimaryLocationState createState() => _SetPrimaryLocationState();
@@ -24,10 +26,17 @@ class _SetPrimaryLocationState extends State<SetPrimaryLocation> {
       TimeZoneMaps.mapForTzMethod.keys.toList();
   List<String> filteredCountryNames;
 
-  final DateFormat formatterNoSeconds = DateFormat('Hm');
+  final DateFormat formatter24HourNoSeconds = DateFormat('Hm');
+  final DateFormat formatter12HourNoSeconds = DateFormat('jm');
+
+  DateFormat currFormatterNoSeconds;
 
   @override
   void initState() {
+
+    currFormatterNoSeconds =
+    widget.is24Hour ? formatter24HourNoSeconds : formatter12HourNoSeconds;
+
     allCountryNames.remove(UserPreferences.currLocation);
     filteredCountryNames = allCountryNames;
     super.initState();
@@ -123,7 +132,7 @@ class _SetPrimaryLocationState extends State<SetPrimaryLocation> {
                           radius: 25,
                         ),
                         title: Text(
-                          '${filteredCountryNames[index]}  ${formatterNoSeconds.format(tz.TZDateTime.now(tz.getLocation(TimeZoneMaps.mapForTzMethod[filteredCountryNames[index]])))}',
+                          '${filteredCountryNames[index]}  ${currFormatterNoSeconds.format(tz.TZDateTime.now(tz.getLocation(TimeZoneMaps.mapForTzMethod[filteredCountryNames[index]])))}',
                           style: TextStyle(color: Colors.white),
                         ),
                         subtitle: Text(

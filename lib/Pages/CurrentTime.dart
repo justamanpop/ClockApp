@@ -90,7 +90,7 @@ class _CurrentTimeState extends State<CurrentTime> {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => AddLocation()),
+                    MaterialPageRoute(builder: (context) => AddLocation(is24Hour)),
                   );
                 },
                 tooltip: 'Add a location to track',
@@ -141,7 +141,7 @@ class _CurrentTimeState extends State<CurrentTime> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => SetPrimaryLocation()),
+                            builder: (context) => SetPrimaryLocation(is24Hour)),
                       );
                     },
                     tooltip: 'Change Primary Location',
