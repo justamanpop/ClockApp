@@ -1,6 +1,8 @@
 import 'dart:collection';
+import 'package:customclockapp/main.dart';
 
 class TimeZoneUtils {
+  
   static Map<String,String> mapForTzMethod = {
     'India':'Asia/Kolkata',
     'Germany': 'Europe/Berlin',
@@ -41,8 +43,8 @@ class TimeZoneUtils {
   }
 
   //TODO make this read from database instead
-  static LinkedHashSet<String> savedCountries = LinkedHashSet();
+  static LinkedHashSet<String> savedCountries = prefs.getStringList('savedCountries').toSet();
 
   //TODO load this from database or some saved preference
-  static String currCountry = 'India';
+  static String currCountry = prefs.getString('currCountry');
 }

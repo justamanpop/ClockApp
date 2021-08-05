@@ -1,5 +1,6 @@
 import 'package:customclockapp/Pages/CurrentTime.dart';
 import 'package:customclockapp/Utils/TimeZoneUtils.dart';
+import 'package:customclockapp/main.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -100,8 +101,13 @@ class _SetPrimaryLocationState extends State<SetPrimaryLocation> {
                     children: [
                       ListTile(
                         onTap: () {
+                          TimeZoneUtils.savedCountries.add(TimeZoneUtils.currCountry);
                           TimeZoneUtils.currCountry = filteredCountryNames[index];
                           TimeZoneUtils.savedCountries.remove(filteredCountryNames[index]);
+
+                          prefs.setString('currCountry', filteredCountryNames[index]);
+                          prefs.setStringList('savedCountries', TimeZoneUtils.savedCountries.toList());
+
                           Navigator.pushAndRemoveUntil(
                               context,
                               MaterialPageRoute(
@@ -149,7 +155,7 @@ class _SetPrimaryLocationState extends State<SetPrimaryLocation> {
   Future<void> confirmAddition(int index) async {
     await Flushbar(
       messageText: Text(
-        "${filteredCountryNames[index]} was successfully added!",
+        "${filteredCountryNames[index]} was successfully set as primary location!",
         style: TextStyle(color: Color(0xff003c8f)),
       ),
       duration: Duration(seconds: 3),

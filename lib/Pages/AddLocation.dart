@@ -1,5 +1,6 @@
 import 'package:customclockapp/Pages/CurrentTime.dart';
 import 'package:customclockapp/Utils/TimeZoneUtils.dart';
+import 'package:customclockapp/main.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -17,7 +18,7 @@ class AddLocation extends StatefulWidget {
 class _AddLocationState extends State<AddLocation> {
   TextEditingController searchBarController = TextEditingController();
 
-  final List<String> allCountryNames =
+  List<String> allCountryNames =
       TimeZoneUtils.mapForTzMethod.keys.toList();
   List<String> filteredCountryNames;
 
@@ -25,6 +26,8 @@ class _AddLocationState extends State<AddLocation> {
 
   @override
   void initState() {
+    allCountryNames = allCountryNames.toSet().difference(TimeZoneUtils.savedCountries).toList();
+    allCountryNames.remove(TimeZoneUtils.currCountry);
     filteredCountryNames = allCountryNames;
     super.initState();
   }
@@ -101,6 +104,9 @@ class _AddLocationState extends State<AddLocation> {
                         onTap: () {
                           TimeZoneUtils.savedCountries
                               .add(filteredCountryNames[index]);
+
+                          prefs.setStringList('savedCountries', TimeZoneUtils.savedCountries.toList());
+
                           Navigator.pushAndRemoveUntil(
                               context,
                               MaterialPageRoute(
