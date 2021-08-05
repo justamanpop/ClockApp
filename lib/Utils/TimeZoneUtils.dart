@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 class TimeZoneUtils {
   static Map<String,String> mapForTzMethod = {
     'India':'Asia/Kolkata',
@@ -39,7 +41,7 @@ class TimeZoneUtils {
   }
 
   //TODO make this read from database instead
-  static List<String> savedCountries =[];
+  static LinkedHashSet<String> savedCountries = LinkedHashSet();
 
   //TODO load this from database or some saved preference
   static String currCountry = 'India';
