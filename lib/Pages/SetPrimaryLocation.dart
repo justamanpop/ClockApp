@@ -1,5 +1,6 @@
 import 'package:customclockapp/Pages/CurrentTime.dart';
-import 'package:customclockapp/Utils/TimeZoneUtils.dart';
+import 'package:customclockapp/Utils/TimeZoneMaps.dart';
+import 'package:customclockapp/Utils/UserPreferences.dart';
 import 'package:customclockapp/main.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -19,14 +20,14 @@ class _SetPrimaryLocationState extends State<SetPrimaryLocation> {
   TextEditingController searchBarController = TextEditingController();
 
   List<String> allCountryNames =
-      TimeZoneUtils.mapForTzMethod.keys.toList();
+      TimeZoneMaps.mapForTzMethod.keys.toList();
   List<String> filteredCountryNames;
 
   final DateFormat formatterNoSeconds = DateFormat('Hm');
 
   @override
   void initState() {
-    allCountryNames.remove(TimeZoneUtils.currCountry);
+    allCountryNames.remove(UserPreferences.currCountry);
     filteredCountryNames = allCountryNames;
     super.initState();
   }
@@ -101,12 +102,12 @@ class _SetPrimaryLocationState extends State<SetPrimaryLocation> {
                     children: [
                       ListTile(
                         onTap: () {
-                          TimeZoneUtils.savedCountries.add(TimeZoneUtils.currCountry);
-                          TimeZoneUtils.currCountry = filteredCountryNames[index];
-                          TimeZoneUtils.savedCountries.remove(filteredCountryNames[index]);
+                          UserPreferences.savedCountries.add(UserPreferences.currCountry);
+                          UserPreferences.currCountry = filteredCountryNames[index];
+                          UserPreferences.savedCountries.remove(filteredCountryNames[index]);
 
                           prefs.setString('currCountry', filteredCountryNames[index]);
-                          prefs.setStringList('savedCountries', TimeZoneUtils.savedCountries.toList());
+                          prefs.setStringList('savedCountries', UserPreferences.savedCountries.toList());
 
                           Navigator.pushAndRemoveUntil(
                               context,
@@ -121,14 +122,14 @@ class _SetPrimaryLocationState extends State<SetPrimaryLocation> {
                           radius: 25,
                         ),
                         title: Text(
-                          '${filteredCountryNames[index]}  ${formatterNoSeconds.format(tz.TZDateTime.now(tz.getLocation(TimeZoneUtils.mapForTzMethod[filteredCountryNames[index]])))}',
+                          '${filteredCountryNames[index]}  ${formatterNoSeconds.format(tz.TZDateTime.now(tz.getLocation(TimeZoneMaps.mapForTzMethod[filteredCountryNames[index]])))}',
                           style: TextStyle(color: Colors.white),
                         ),
                         subtitle: Text(
-                          TimeZoneUtils.isSummerEurope()
-                              ? TimeZoneUtils.mapForTimeZoneNameSummer[
+                          TimeZoneMaps.isSummerEurope()
+                              ? TimeZoneMaps.mapForTimeZoneNameSummer[
                                   filteredCountryNames[index]]
-                              : TimeZoneUtils.mapForTimeZoneNameWinter[
+                              : TimeZoneMaps.mapForTimeZoneNameWinter[
                                   filteredCountryNames[index]],
                           style: TextStyle(color: Colors.white),
                         ),

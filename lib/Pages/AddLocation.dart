@@ -1,5 +1,6 @@
 import 'package:customclockapp/Pages/CurrentTime.dart';
-import 'package:customclockapp/Utils/TimeZoneUtils.dart';
+import 'package:customclockapp/Utils/TimeZoneMaps.dart';
+import 'package:customclockapp/Utils/UserPreferences.dart';
 import 'package:customclockapp/main.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -19,15 +20,15 @@ class _AddLocationState extends State<AddLocation> {
   TextEditingController searchBarController = TextEditingController();
 
   List<String> allCountryNames =
-      TimeZoneUtils.mapForTzMethod.keys.toList();
+      TimeZoneMaps.mapForTzMethod.keys.toList();
   List<String> filteredCountryNames;
 
   final DateFormat formatterNoSeconds = DateFormat('Hm');
 
   @override
   void initState() {
-    allCountryNames = allCountryNames.toSet().difference(TimeZoneUtils.savedCountries).toList();
-    allCountryNames.remove(TimeZoneUtils.currCountry);
+    allCountryNames = allCountryNames.toSet().difference(UserPreferences.savedCountries).toList();
+    allCountryNames.remove(UserPreferences.currCountry);
     filteredCountryNames = allCountryNames;
     super.initState();
   }
@@ -102,10 +103,10 @@ class _AddLocationState extends State<AddLocation> {
                     children: [
                       ListTile(
                         onTap: () {
-                          TimeZoneUtils.savedCountries
+                          UserPreferences.savedCountries
                               .add(filteredCountryNames[index]);
 
-                          prefs.setStringList('savedCountries', TimeZoneUtils.savedCountries.toList());
+                          prefs.setStringList('savedCountries', UserPreferences.savedCountries.toList());
 
                           Navigator.pushAndRemoveUntil(
                               context,
@@ -120,14 +121,14 @@ class _AddLocationState extends State<AddLocation> {
                           radius: 25,
                         ),
                         title: Text(
-                          '${filteredCountryNames[index]}  ${formatterNoSeconds.format(tz.TZDateTime.now(tz.getLocation(TimeZoneUtils.mapForTzMethod[filteredCountryNames[index]])))}',
+                          '${filteredCountryNames[index]}  ${formatterNoSeconds.format(tz.TZDateTime.now(tz.getLocation(TimeZoneMaps.mapForTzMethod[filteredCountryNames[index]])))}',
                           style: TextStyle(color: Colors.white),
                         ),
                         subtitle: Text(
-                          TimeZoneUtils.isSummerEurope()
-                              ? TimeZoneUtils.mapForTimeZoneNameSummer[
+                          TimeZoneMaps.isSummerEurope()
+                              ? TimeZoneMaps.mapForTimeZoneNameSummer[
                                   filteredCountryNames[index]]
-                              : TimeZoneUtils.mapForTimeZoneNameWinter[
+                              : TimeZoneMaps.mapForTimeZoneNameWinter[
                                   filteredCountryNames[index]],
                           style: TextStyle(color: Colors.white),
                         ),
