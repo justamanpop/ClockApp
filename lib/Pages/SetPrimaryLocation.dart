@@ -27,7 +27,7 @@ class _SetPrimaryLocationState extends State<SetPrimaryLocation> {
 
   @override
   void initState() {
-    allCountryNames.remove(UserPreferences.currCountry);
+    allCountryNames.remove(UserPreferences.currLocation);
     filteredCountryNames = allCountryNames;
     super.initState();
   }
@@ -102,12 +102,12 @@ class _SetPrimaryLocationState extends State<SetPrimaryLocation> {
                     children: [
                       ListTile(
                         onTap: () {
-                          UserPreferences.savedCountries.add(UserPreferences.currCountry);
-                          UserPreferences.currCountry = filteredCountryNames[index];
-                          UserPreferences.savedCountries.remove(filteredCountryNames[index]);
+                          UserPreferences.savedLocations.add(UserPreferences.currLocation);
+                          UserPreferences.currLocation = filteredCountryNames[index];
+                          UserPreferences.savedLocations.remove(filteredCountryNames[index]);
 
-                          prefs.setString('currCountry', filteredCountryNames[index]);
-                          prefs.setStringList('savedCountries', UserPreferences.savedCountries.toList());
+                          prefs.setString('currLocation', filteredCountryNames[index]);
+                          prefs.setStringList('savedLocations', UserPreferences.savedLocations.toList());
 
                           Navigator.pushAndRemoveUntil(
                               context,

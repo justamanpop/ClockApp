@@ -3,7 +3,7 @@ import 'package:customclockapp/main.dart';
 
 class UserPreferences {
   
-  static LinkedHashSet<String> savedCountries = prefs.getStringList('savedCountries').toSet();
+  static LinkedHashSet<String> savedLocations = prefs.getStringList('savedLocations').toSet();
 
-  static String currCountry = prefs.getString('currCountry');
+  static String currLocation = prefs.getString('currLocation');
 }

@@ -49,7 +49,7 @@ class _CurrentTimeState extends State<CurrentTime> {
     currFormatterNoSeconds =
         is24Hour ? formatter24HourNoSeconds : formatter12HourNoSeconds;
 
-    currLocationCountryName = UserPreferences.currCountry;
+    currLocationCountryName = UserPreferences.currLocation;
     currLocation =
         tz.getLocation(TimeZoneMaps.mapForTzMethod[currLocationCountryName]);
     _clockTimer = Timer.periodic(Duration(milliseconds: 200), (timer) {
@@ -117,7 +117,7 @@ class _CurrentTimeState extends State<CurrentTime> {
                     width: 15,
                   ),
                   Image.asset(
-                    'flags/${UserPreferences.currCountry}.png',
+                    'flags/${UserPreferences.currLocation}.png',
                     height: 44,
                     width: 44,
                   ),
@@ -125,7 +125,7 @@ class _CurrentTimeState extends State<CurrentTime> {
                     width: 20,
                   ),
                   Text(
-                    '${UserPreferences.currCountry}',
+                    '${UserPreferences.currLocation}',
                     style: TextStyle(color: Colors.white, fontSize: 36),
                   ),
                   SizedBox(
@@ -168,7 +168,7 @@ class _CurrentTimeState extends State<CurrentTime> {
                     width: 25,
                   ),
                   Text(
-                    '${TimeZoneMaps.isSummerEurope() ? TimeZoneMaps.mapForTimeZoneNameSummer[UserPreferences.currCountry] : TimeZoneMaps.mapForTimeZoneNameWinter[UserPreferences.currCountry]}',
+                    '${TimeZoneMaps.isSummerEurope() ? TimeZoneMaps.mapForTimeZoneNameSummer[UserPreferences.currLocation] : TimeZoneMaps.mapForTimeZoneNameWinter[UserPreferences.currLocation]}',
                     style: TextStyle(color: Colors.grey, fontSize: 18),
                   ),
                 ],
@@ -233,7 +233,7 @@ class _CurrentTimeState extends State<CurrentTime> {
               ),
               Material(
                 color: Colors.black,
-                child: UserPreferences.savedCountries.length == 0
+                child: UserPreferences.savedLocations.length == 0
                     ? Column(
                         children: [
                           SizedBox(
@@ -260,28 +260,28 @@ class _CurrentTimeState extends State<CurrentTime> {
                                   scrollDirection: Axis.vertical,
                                   shrinkWrap: true,
                                   itemCount:
-                                      UserPreferences.savedCountries.length,
+                                      UserPreferences.savedLocations.length,
                                   itemBuilder:
                                       (BuildContext context, int index) {
                                     return ListTile(
                                       leading: CircleAvatar(
                                         backgroundImage: AssetImage(
-                                            'flags/${UserPreferences.savedCountries.elementAt(index)}.png'),
+                                            'flags/${UserPreferences.savedLocations.elementAt(index)}.png'),
                                         radius: 25,
                                       ),
                                       title: Text(
-                                        '${UserPreferences.savedCountries.elementAt(index)}    ${currFormatterNoSeconds.format(tz.TZDateTime.now(tz.getLocation(TimeZoneMaps.mapForTzMethod[UserPreferences.savedCountries.elementAt(index)])))}',
+                                        '${UserPreferences.savedLocations.elementAt(index)}    ${currFormatterNoSeconds.format(tz.TZDateTime.now(tz.getLocation(TimeZoneMaps.mapForTzMethod[UserPreferences.savedLocations.elementAt(index)])))}',
                                         style: TextStyle(color: Colors.white),
                                       ),
                                       subtitle: Text(
                                         TimeZoneMaps.isSummerEurope()
                                             ? TimeZoneMaps
                                                     .mapForTimeZoneNameSummer[
-                                        UserPreferences.savedCountries
+                                        UserPreferences.savedLocations
                                                     .elementAt(index)]
                                             : TimeZoneMaps
                                                     .mapForTimeZoneNameWinter[
-                                        UserPreferences.savedCountries
+                                        UserPreferences.savedLocations
                                                     .elementAt(index)],
                                         style: TextStyle(color: Colors.white),
                                       ),
@@ -346,7 +346,7 @@ class _CurrentTimeState extends State<CurrentTime> {
         style: TextStyle(color: Colors.white),
       ),
       content: Text(
-        "Are you sure you want to stop tracking the time in ${UserPreferences.savedCountries.elementAt(index)}?",
+        "Are you sure you want to stop tracking the time in ${UserPreferences.savedLocations.elementAt(index)}?",
         style: TextStyle(color: Colors.white),
       ),
       backgroundColor: Colors.black,
@@ -366,8 +366,8 @@ class _CurrentTimeState extends State<CurrentTime> {
         ),
         TextButton(
             onPressed: () async {
-              UserPreferences.savedCountries
-                  .remove(UserPreferences.savedCountries.elementAt(index));
+              UserPreferences.savedLocations
+                  .remove(UserPreferences.savedLocations.elementAt(index));
               //TODO make this update database too
               Navigator.of(context).pop();
             },

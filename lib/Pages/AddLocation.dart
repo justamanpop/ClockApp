@@ -27,8 +27,8 @@ class _AddLocationState extends State<AddLocation> {
 
   @override
   void initState() {
-    allCountryNames = allCountryNames.toSet().difference(UserPreferences.savedCountries).toList();
-    allCountryNames.remove(UserPreferences.currCountry);
+    allCountryNames = allCountryNames.toSet().difference(UserPreferences.savedLocations).toList();
+    allCountryNames.remove(UserPreferences.currLocation);
     filteredCountryNames = allCountryNames;
     super.initState();
   }
@@ -103,10 +103,10 @@ class _AddLocationState extends State<AddLocation> {
                     children: [
                       ListTile(
                         onTap: () {
-                          UserPreferences.savedCountries
+                          UserPreferences.savedLocations
                               .add(filteredCountryNames[index]);
 
-                          prefs.setStringList('savedCountries', UserPreferences.savedCountries.toList());
+                          prefs.setStringList('savedLocations', UserPreferences.savedLocations.toList());
 
                           Navigator.pushAndRemoveUntil(
                               context,

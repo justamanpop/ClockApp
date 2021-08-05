@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:customclockapp/Pages/CurrentTime.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -15,17 +14,17 @@ void main() async{
       prefs = await SharedPreferences.getInstance();
 
       //if currCountry doesn't exist in shared prefs
-      if(!prefs.containsKey('currCountry'))
+      if(!prefs.containsKey('currLocation'))
       {
         debugPrint('FIRST TIME CURR COUNTRY');
-        prefs.setString('currCountry', 'India');
+        prefs.setString('currLocation', 'India');
       }
 
       //if savedCountries doesn't exist in shared prefs
-      if(!prefs.containsKey('savedCountries'))
+      if(!prefs.containsKey('savedLocations'))
       {
         debugPrint('FIRST TIME SAVED COUNTRIES');
-        prefs.setStringList('savedCountries', []);
+        prefs.setStringList('savedLocations', []);
       }
 
       //if time display format doesn't exist in shared prefs
