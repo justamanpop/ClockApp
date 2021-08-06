@@ -1,4 +1,4 @@
-import 'package:customclockapp/Pages/CurrentTime.dart';
+import 'package:customclockapp/Pages/WorldClock/CurrentTime.dart';
 import 'package:customclockapp/Pages/screen2.dart';
 import 'package:flutter/material.dart';
 

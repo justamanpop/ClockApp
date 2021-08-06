@@ -1,4 +1,4 @@
-import 'package:customclockapp/Pages/CurrentTime.dart';
+import 'package:customclockapp/Pages/WorldClock/CurrentTime.dart';
 import 'package:customclockapp/Utils/TimeZoneMaps.dart';
 import 'package:customclockapp/Utils/TimeZoneUtilFunctions.dart';
 import 'package:customclockapp/Utils/UserPreferences.dart';

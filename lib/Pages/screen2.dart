@@ -1,5 +1,5 @@
-import 'package:customclockapp/Pages/CurrentTime.dart';
-import 'package:customclockapp/Pages/screen3.dart';
+import 'package:customclockapp/Pages/WorldClock/CurrentTime.dart';
+import 'package:customclockapp/Pages/Timer.dart';
 import 'package:flutter/material.dart';
 
 class ScreenTwo extends StatelessWidget {

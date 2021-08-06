@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:customclockapp/Pages/CurrentTime.dart';
+import 'package:customclockapp/Pages/WorldClock/CurrentTime.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 SharedPreferences prefs;
