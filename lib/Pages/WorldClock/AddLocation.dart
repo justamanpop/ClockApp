@@ -39,6 +39,7 @@ class _AddLocationState extends State<AddLocation> {
     widget.is24Hour ? formatter24HourNoSeconds : formatter12HourNoSeconds;
 
     allCountryNames = allCountryNames.toSet().difference(UserPreferences.savedLocations).toList();
+    allCountryNames.sort((a, b) => a.toString().compareTo(b.toString()));
     allCountryNames.remove(UserPreferences.currLocation);
     filteredCountryNames = allCountryNames;
     super.initState();

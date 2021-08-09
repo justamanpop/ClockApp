@@ -38,6 +38,8 @@ class _SetPrimaryLocationState extends State<SetPrimaryLocation> {
     widget.is24Hour ? formatter24HourNoSeconds : formatter12HourNoSeconds;
 
     allCountryNames.remove(UserPreferences.currLocation);
+    allCountryNames.sort((a, b) => a.toString().compareTo(b.toString()));
+
     filteredCountryNames = allCountryNames;
     super.initState();
   }

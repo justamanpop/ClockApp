@@ -1,5 +1,5 @@
 import 'package:customclockapp/Pages/WorldClock/CurrentTime.dart';
-import 'package:customclockapp/Pages/Timer.dart';
+import 'package:customclockapp/Pages/TimerPage.dart';
 import 'package:flutter/material.dart';
 
 class ScreenTwo extends StatelessWidget {
@@ -8,7 +8,7 @@ class ScreenTwo extends StatelessWidget {
   static List<Widget> _widgetOptions = <Widget>[
     CurrentTime(),
     ScreenTwo(),
-    ScreenThree()
+    TimerPage()
   ];
 
   @override

@@ -12,7 +12,9 @@ class TimeZoneMaps {
     'France': 'Europe/Paris',
     'China': 'Asia/Hong_Kong',
     'Turkey': 'Europe/Istanbul',
-    'Malaysia' : 'Asia/Kuala_Lumpur'
+    'Malaysia' : 'Asia/Kuala_Lumpur',
+    'Netherlands' : 'Europe/Amsterdam',
+    'South Africa' : 'Africa/Johannesburg'
   };
 
   static Map<String,String> mapForTimeZoneNameSummer = {
@@ -25,7 +27,9 @@ class TimeZoneMaps {
     'Japan' : 'Japan Standard Time',
     'Singapore' : 'Singapore Standard Time',
     'Turkey' : 'Turkey Time',
-    'Malaysia': 'Malaysian Standard Time'
+    'Malaysia': 'Malaysian Standard Time',
+    'Netherlands' : 'Central European Summer Time',
+    'South Africa' : 'South Africa Standard Time'
   };
 
   static Map<String,String> mapForTimeZoneNameWinter = {
@@ -38,7 +42,9 @@ class TimeZoneMaps {
     'Japan' : 'Japan Standard Time',
     'Singapore' : 'Singapore Standard Time',
     'Turkey' : 'Turkey Time',
-    'Malaysia': 'Malaysian Standard Time'
+    'Malaysia': 'Malaysian Standard Time',
+    'Netherlands': 'Central European Time',
+    'South Africa' : 'South Africa Standard Time'
   };
 
   static Map<String,LocationTimeZoneCategories> mapCountryToTimeZoneCategory = {
@@ -51,7 +57,9 @@ class TimeZoneMaps {
     'France': LocationTimeZoneCategories.mostOfEurope,
     'China': LocationTimeZoneCategories.noDaylightSavings,
     'Turkey': LocationTimeZoneCategories.noDaylightSavings,
-    'Malaysia' : LocationTimeZoneCategories.noDaylightSavings
+    'Malaysia' : LocationTimeZoneCategories.noDaylightSavings,
+    'Netherlands' : LocationTimeZoneCategories.mostOfEurope,
+    'South Africa' : LocationTimeZoneCategories.noDaylightSavings
   };
 
 }
