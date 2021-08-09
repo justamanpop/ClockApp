@@ -21,7 +21,7 @@ class TimerPage extends StatelessWidget {
     }
 
     return Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.black,
         appBar: AppBar(
           title: Text(
             'Timer',
@@ -47,7 +47,7 @@ class TimerPage extends StatelessWidget {
           children: <Widget>[
             Divider(
               color: Colors.grey,
-              thickness: 0.3,
+              thickness: 0.5,
             ),
             SizedBox(height: 10,),
             DurationPicker(),
