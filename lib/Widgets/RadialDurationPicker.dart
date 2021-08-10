@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:numberpicker/numberpicker.dart';
 
-class DurationPicker extends StatefulWidget {
-  const DurationPicker({Key key}) : super(key: key);
+class RadialDurationPicker extends StatefulWidget {
+  const RadialDurationPicker({Key key}) : super(key: key);
 
   @override
-  _DurationPickerState createState() => _DurationPickerState();
+  _RadialDurationPickerState createState() => _RadialDurationPickerState();
 }
 
-class _DurationPickerState extends State<DurationPicker> {
+class _RadialDurationPickerState extends State<RadialDurationPicker> {
   int _currentHour = 0;
   int _currentMinute = 0;
   int _currentSecond = 0;

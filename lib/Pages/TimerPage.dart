@@ -1,6 +1,7 @@
 import 'package:customclockapp/Pages/WorldClock/CurrentTime.dart';
 import 'package:customclockapp/Pages/screen2.dart';
-import 'package:customclockapp/Widgets/RadialTimePicker.dart';
+import 'package:customclockapp/Widgets/RadialDurationPicker.dart';
+import 'package:customclockapp/Widgets/TimerDisplay.dart';
 import 'package:flutter/material.dart';
 
 class TimerPage extends StatelessWidget {
@@ -50,7 +51,7 @@ class TimerPage extends StatelessWidget {
               thickness: 0.5,
             ),
             SizedBox(height: 10,),
-            DurationPicker(),
+            RadialDurationPicker(),
           ],
         ),
         bottomNavigationBar: BottomNavigationBar(

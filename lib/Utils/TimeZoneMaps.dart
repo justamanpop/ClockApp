@@ -14,7 +14,9 @@ class TimeZoneMaps {
     'Turkey': 'Europe/Istanbul',
     'Malaysia' : 'Asia/Kuala_Lumpur',
     'Netherlands' : 'Europe/Amsterdam',
-    'South Africa' : 'Africa/Johannesburg'
+    'South Africa' : 'Africa/Johannesburg',
+    'Pakistan' : 'Asia/Karachi',
+    'Sri Lanka' : 'Asia/Colombo'
   };
 
   static Map<String,String> mapForTimeZoneNameSummer = {
@@ -29,7 +31,9 @@ class TimeZoneMaps {
     'Turkey' : 'Turkey Time',
     'Malaysia': 'Malaysian Standard Time',
     'Netherlands' : 'Central European Summer Time',
-    'South Africa' : 'South Africa Standard Time'
+    'South Africa' : 'South Africa Standard Time',
+    'Pakistan' : 'Pakistan Standard Time',
+    'Sri Lanka' : 'Sri Lanka Standard Time'
   };
 
   static Map<String,String> mapForTimeZoneNameWinter = {
@@ -44,7 +48,9 @@ class TimeZoneMaps {
     'Turkey' : 'Turkey Time',
     'Malaysia': 'Malaysian Standard Time',
     'Netherlands': 'Central European Time',
-    'South Africa' : 'South Africa Standard Time'
+    'South Africa' : 'South Africa Standard Time',
+    'Pakistan' : 'Pakistan Standard Time',
+    'Sri Lanka' : 'Sri Lanka Standard Time'
   };
 
   static Map<String,LocationTimeZoneCategories> mapCountryToTimeZoneCategory = {
@@ -59,7 +65,9 @@ class TimeZoneMaps {
     'Turkey': LocationTimeZoneCategories.noDaylightSavings,
     'Malaysia' : LocationTimeZoneCategories.noDaylightSavings,
     'Netherlands' : LocationTimeZoneCategories.mostOfEurope,
-    'South Africa' : LocationTimeZoneCategories.noDaylightSavings
+    'South Africa' : LocationTimeZoneCategories.noDaylightSavings,
+    'Pakistan' : LocationTimeZoneCategories.noDaylightSavings,
+    'Sri Lanka' : LocationTimeZoneCategories.noDaylightSavings
   };
 
 }

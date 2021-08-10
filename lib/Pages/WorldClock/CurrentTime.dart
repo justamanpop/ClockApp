@@ -361,7 +361,7 @@ class _CurrentTimeState extends State<CurrentTime> {
             onPressed: () async {
               UserPreferences.savedLocations
                   .remove(UserPreferences.savedLocations.elementAt(index));
-              //TODO make this update database too
+              prefs.setStringList('savedLocations', UserPreferences.savedLocations.toList());
               Navigator.of(context).pop();
             },
             child: Text(
