@@ -18,7 +18,7 @@ class TimerPage extends StatelessWidget {
       Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(builder: (context) => _widgetOptions[index]),
-              (Route<dynamic> route) => false);
+          (Route<dynamic> route) => false);
     }
 
     return Scaffold(
@@ -34,8 +34,7 @@ class TimerPage extends StatelessWidget {
           backgroundColor: Colors.black,
           actions: <Widget>[
             IconButton(
-                onPressed: () {
-                },
+                onPressed: () {},
                 tooltip: 'Add a new timer',
                 icon: Icon(
                   Icons.add,
@@ -50,33 +49,71 @@ class TimerPage extends StatelessWidget {
               color: Colors.grey,
               thickness: 0.5,
             ),
-            SizedBox(height: 10,),
+            SizedBox(
+              height: 10,
+            ),
             RadialDurationPicker(),
+            Row(
+              children: <Widget>[
+                SizedBox(width: 15,),
+                Expanded(
+                  child: ElevatedButton(
+                      onPressed: () {},
+                      child: Text(
+                        'Start',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                        ),
+                      ),
+                    style: ElevatedButton.styleFrom(
+                      //fixedSize: Size(60,60),
+                      primary: Color(0xff5c6bc0),
+                    ),
+                  ),
+                ),
+                SizedBox(width: 15,),
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: () {},
+                    child: Text(
+                      'Reset',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                      ),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      //fixedSize: Size(60,60),
+                      primary: Color(0xff5c6bc0),
+                    ),
+                  ),
+                ),
+                SizedBox(width: 15,),
+              ],
+            )
           ],
         ),
         bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.black,
-        unselectedItemColor: Colors.white,
-        items: <BottomNavigationBarItem>[
-    BottomNavigationBarItem(
-    icon: Icon(Icons.access_time),
-    label: 'Clock',
-    ),
-    BottomNavigationBarItem(
-    icon: Icon(Icons.alarm),
-    label: 'Alarm',
-    ),
-    BottomNavigationBarItem(
-    icon: Icon(Icons.timer),
-    label: 'Timer',
-    ),
-    ],
-    currentIndex: 2,
-    selectedItemColor: Colors.blueAccent,
-    onTap: _onItemTapped
-    ,
-    )
-    );
+          backgroundColor: Colors.black,
+          unselectedItemColor: Colors.white,
+          items: <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(Icons.access_time),
+              label: 'Clock',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.alarm),
+              label: 'Alarm',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.timer),
+              label: 'Timer',
+            ),
+          ],
+          currentIndex: 2,
+          selectedItemColor: Colors.blueAccent,
+          onTap: _onItemTapped,
+        ));
   }
 }
-

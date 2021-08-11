@@ -72,34 +72,6 @@ class _RadialDurationPickerState extends State<RadialDurationPicker> {
           style: TextStyle(color: Colors.white),
         ),
         SizedBox(height: 20,),
-        Row(
-          children: <Widget>[
-            SizedBox(
-              width: 70,
-            ),
-            RawMaterialButton(
-              onPressed: () {},
-              child: Icon(
-                Icons.play_arrow,
-                color: Colors.white,
-                size: 48,
-              ),
-              shape: CircleBorder(side: BorderSide(color: Colors.grey,width: 0.5)),
-            ),
-            SizedBox(
-              width: 20,
-            ),
-            RawMaterialButton(
-              onPressed: () {},
-              child: Icon(
-                Icons.stop,
-                color: Colors.white,
-                size: 48,
-              ),
-              shape: CircleBorder(side: BorderSide(color: Colors.grey,width: 0.5)),
-            ),
-          ],
-        )
       ],
     );
   }
