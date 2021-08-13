@@ -1,21 +1,28 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:simple_timer/simple_timer.dart';
 
 class TimerDisplay extends StatefulWidget {
-  const TimerDisplay({Key key}) : super(key: key);
+  final TimerController _timerController;
+  final Duration _timerDuration;
+
+  TimerDisplay(this._timerController, this._timerDuration);
 
   @override
-  _TimerDisplayState createState() => _TimerDisplayState();
+  _TimerDisplayState createState() => _TimerDisplayState(_timerController, _timerDuration);
 }
 
-class _TimerDisplayState extends State<TimerDisplay> with SingleTickerProviderStateMixin {
+class _TimerDisplayState extends State<TimerDisplay> {
   TimerProgressIndicatorDirection _progressIndicatorDirection = TimerProgressIndicatorDirection.clockwise;
   TimerProgressTextCountDirection _progressTextCountDirection = TimerProgressTextCountDirection.count_down;
   TimerController _timerController;
+  Duration _timerDuration;
+
+  _TimerDisplayState(this._timerController, this._timerDuration);
 
   @override
   void initState() {
-    _timerController = TimerController(this);
     super.initState();
   }
 
@@ -30,7 +37,7 @@ class _TimerDisplayState extends State<TimerDisplay> with SingleTickerProviderSt
             child: Container(
               margin: EdgeInsets.symmetric(vertical: 10),
               child: SimpleTimer(
-                duration: Duration(seconds: 20),
+                duration: _timerDuration,
                 controller: _timerController,
                 timerStyle: TimerStyle.ring,
                 backgroundColor: Colors.grey,
