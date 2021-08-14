@@ -101,6 +101,15 @@ class _TimerPageState extends State<TimerPage>
                               child: Container(
                                 margin: EdgeInsets.symmetric(vertical: 10),
                                 child: SimpleTimer(
+                                  progressTextFormatter: (Duration duration) {
+                                    String twoDigits(int n) =>
+                                        n.toString().padLeft(2, "0");
+                                    String twoDigitMinutes = twoDigits(
+                                        duration.inMinutes.remainder(60));
+                                    String twoDigitSeconds = twoDigits(
+                                        duration.inSeconds.remainder(60));
+                                    return "${twoDigits(duration.inHours)}:$twoDigitMinutes:$twoDigitSeconds";
+                                  },
                                   onEnd: () {
                                     setState(() {
                                       _timerStatus = TimerStatus.reset;
@@ -110,14 +119,14 @@ class _TimerPageState extends State<TimerPage>
                                   duration: _timerDuration,
                                   status: _timerStatus,
                                   timerStyle: TimerStyle.ring,
-                                  backgroundColor: Color(0xff1b1b1b),
+                                  backgroundColor: Color(0xff383838),
                                   progressIndicatorColor: Color(0xff5c6bc0),
                                   progressIndicatorDirection:
                                       _progressIndicatorDirection,
                                   progressTextCountDirection:
                                       _progressTextCountDirection,
-                                  progressTextStyle:
-                                      TextStyle(color: Colors.white, fontSize: 80),
+                                  progressTextStyle: TextStyle(
+                                      color: Colors.white, fontSize: 80),
                                   strokeWidth: 10,
                                 ),
                               ),
@@ -189,7 +198,7 @@ class _TimerPageState extends State<TimerPage>
                         ],
                       ),
                       SizedBox(
-                        height: 35,
+                        height: 40,
                       ),
                     ],
                   ),
@@ -202,44 +211,36 @@ class _TimerPageState extends State<TimerPage>
                   child: ElevatedButton(
                     onPressed: () {
                       setState(() {
-
                         //if no timer has been set yet
-                        if(!_timerSet) {
+                        if (!_timerSet) {
                           _timerDuration = Duration(
-                            seconds: _currentSecond,
-                            minutes: _currentMinute,
-                            hours: _currentHour);
+                              seconds: _currentSecond,
+                              minutes: _currentMinute,
+                              hours: _currentHour);
                           _timerSet = true;
                           _timerStatus = TimerStatus.start;
                           _timerRunning = true;
-                        }
-
-                        else
-                        {
+                        } else {
                           //if currently unpaused, pause
-                          if(_timerStatus == TimerStatus.start)
-                          setState(() {
-                            _timerStatus = TimerStatus.pause;
-                            _timerRunning = false;
-                          });
-
-                          else if(_timerStatus == TimerStatus.reset)
+                          if (_timerStatus == TimerStatus.start)
+                            setState(() {
+                              _timerStatus = TimerStatus.pause;
+                              _timerRunning = false;
+                            });
+                          else if (_timerStatus == TimerStatus.reset)
                             setState(() {
                               _timerStatus = TimerStatus.start;
                               _timerRunning = true;
                             });
 
                           //if paused, then unpause
-                          else
-                          {
+                          else {
                             setState(() {
                               _timerStatus = TimerStatus.start;
                               _timerRunning = true;
                             });
                           }
-
                         }
-
                       });
                     },
                     child: Text(
@@ -316,23 +317,19 @@ class _TimerPageState extends State<TimerPage>
         ));
   }
 
-  String getButtonValue()
-  {
+  String getButtonValue() {
     //if timer has to be initialized and started
-    if(!_timerSet)
-    {
+    if (!_timerSet) {
       return 'Start';
     }
 
     //if timer has finished running
-    if(_timerStatus == TimerStatus.reset)
-    {
+    if (_timerStatus == TimerStatus.reset) {
       return 'Restart';
     }
 
     //if timer is paused
-    if(!_timerRunning)
-      return 'Continue';
+    if (!_timerRunning) return 'Continue';
 
     //if timer is running
     return 'Pause';
