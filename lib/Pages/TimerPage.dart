@@ -33,6 +33,7 @@ class _TimerPageState extends State<TimerPage>
 
   //region properties for timer display
   bool _timerSet = false;
+  bool _timerRunning = false;
   TimerStatus _timerStatus;
   Duration _timerDuration = Duration(seconds: 10);
   TimerProgressIndicatorDirection _progressIndicatorDirection =
@@ -89,31 +90,45 @@ class _TimerPageState extends State<TimerPage>
               height: 10,
             ),
             _timerSet
-                ? Container(
-                    height: 360,
-                    width: MediaQuery.of(context).size.width,
-                    child: Column(
-                      children: <Widget>[
-                        Expanded(
-                          child: Container(
-                            margin: EdgeInsets.symmetric(vertical: 10),
-                            child: SimpleTimer(
-                              duration: _timerDuration,
-                              status: _timerStatus,
-                              timerStyle: TimerStyle.ring,
-                              backgroundColor: Colors.grey,
-                              progressIndicatorColor: Colors.blue,
-                              progressIndicatorDirection:
-                                  _progressIndicatorDirection,
-                              progressTextCountDirection:
-                                  _progressTextCountDirection,
-                              progressTextStyle: TextStyle(color: Colors.white),
-                              strokeWidth: 10,
+                ? Column(
+                    children: [
+                      Container(
+                        height: 260,
+                        width: MediaQuery.of(context).size.width,
+                        child: Column(
+                          children: <Widget>[
+                            Expanded(
+                              child: Container(
+                                margin: EdgeInsets.symmetric(vertical: 10),
+                                child: SimpleTimer(
+                                  onEnd: () {
+                                    setState(() {
+                                      _timerStatus = TimerStatus.reset;
+                                      _timerRunning = false;
+                                    });
+                                  },
+                                  duration: _timerDuration,
+                                  status: _timerStatus,
+                                  timerStyle: TimerStyle.ring,
+                                  backgroundColor: Color(0xff1b1b1b),
+                                  progressIndicatorColor: Color(0xff5c6bc0),
+                                  progressIndicatorDirection:
+                                      _progressIndicatorDirection,
+                                  progressTextCountDirection:
+                                      _progressTextCountDirection,
+                                  progressTextStyle:
+                                      TextStyle(color: Colors.white, fontSize: 80),
+                                  strokeWidth: 10,
+                                ),
+                              ),
                             ),
-                          ),
+                          ],
                         ),
-                      ],
-                    ),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                    ],
                   )
                 : Column(
                     children: <Widget>[
@@ -174,14 +189,7 @@ class _TimerPageState extends State<TimerPage>
                         ],
                       ),
                       SizedBox(
-                        height: 40,
-                      ),
-                      Text(
-                        'Current value: $_currentHour : $_currentMinute : $_currentSecond',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      SizedBox(
-                        height: 20,
+                        height: 35,
                       ),
                     ],
                   ),
@@ -194,16 +202,48 @@ class _TimerPageState extends State<TimerPage>
                   child: ElevatedButton(
                     onPressed: () {
                       setState(() {
-                        _timerDuration = Duration(
+
+                        //if no timer has been set yet
+                        if(!_timerSet) {
+                          _timerDuration = Duration(
                             seconds: _currentSecond,
                             minutes: _currentMinute,
                             hours: _currentHour);
-                        _timerSet = true;
-                        _timerStatus = TimerStatus.start;
+                          _timerSet = true;
+                          _timerStatus = TimerStatus.start;
+                          _timerRunning = true;
+                        }
+
+                        else
+                        {
+                          //if currently unpaused, pause
+                          if(_timerStatus == TimerStatus.start)
+                          setState(() {
+                            _timerStatus = TimerStatus.pause;
+                            _timerRunning = false;
+                          });
+
+                          else if(_timerStatus == TimerStatus.reset)
+                            setState(() {
+                              _timerStatus = TimerStatus.start;
+                              _timerRunning = true;
+                            });
+
+                          //if paused, then unpause
+                          else
+                          {
+                            setState(() {
+                              _timerStatus = TimerStatus.start;
+                              _timerRunning = true;
+                            });
+                          }
+
+                        }
+
                       });
                     },
                     child: Text(
-                      'Start',
+                      '${getButtonValue()}',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 20,
@@ -274,5 +314,27 @@ class _TimerPageState extends State<TimerPage>
           selectedItemColor: Colors.blueAccent,
           onTap: _onItemTapped,
         ));
+  }
+
+  String getButtonValue()
+  {
+    //if timer has to be initialized and started
+    if(!_timerSet)
+    {
+      return 'Start';
+    }
+
+    //if timer has finished running
+    if(_timerStatus == TimerStatus.reset)
+    {
+      return 'Restart';
+    }
+
+    //if timer is paused
+    if(!_timerRunning)
+      return 'Continue';
+
+    //if timer is running
+    return 'Pause';
   }
 }
