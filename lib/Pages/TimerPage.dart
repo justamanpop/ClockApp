@@ -15,6 +15,7 @@ class TimerPage extends StatefulWidget {
 
 class _TimerPageState extends State<TimerPage>
     with SingleTickerProviderStateMixin {
+
   //region related to bottom navigation bar
   static List<Widget> _widgetOptions = <Widget>[
     CurrentTime(),
@@ -47,6 +48,9 @@ class _TimerPageState extends State<TimerPage>
   int _currentHour = 0;
   int _currentMinute = 0;
   int _currentSecond = 0;
+
+  //controller for label of primary timer
+  TextEditingController primaryLabelController = TextEditingController();
 
   //endregion
 
@@ -89,14 +93,49 @@ class _TimerPageState extends State<TimerPage>
             SizedBox(
               height: 10,
             ),
+            Row(
+              children: [
+                SizedBox(width: 25,),
+                _timerSet? Text('${primaryLabelController.text}', style: TextStyle(color: Colors.white, fontSize: 36, fontWeight: FontWeight.bold),):Container(
+                  width: 285,
+                  child: TextField(
+                    textCapitalization: TextCapitalization.sentences,
+
+                    controller: primaryLabelController,
+
+                    maxLength: 45,
+
+                    style: TextStyle(color: Colors.white, fontSize: 18),
+
+                    decoration: InputDecoration(
+                      isDense: true,
+                      contentPadding: EdgeInsets.fromLTRB(15, 15, 15, 7),
+                      filled: true,
+                      fillColor: Color(0xff212121),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(24),
+                      ),
+                      hintText: 'Label for timer (optional)',
+                      hintStyle: TextStyle(color: Colors.grey),
+
+                      suffixIcon: IconButton(
+                        onPressed: primaryLabelController.clear,
+                        icon: Icon(Icons.clear, color: Colors.white,),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
             _timerSet
                 ? Column(
                     children: [
                       Container(
-                        height: 260,
+                        height: 280,
                         width: MediaQuery.of(context).size.width,
                         child: Column(
                           children: <Widget>[
+                            SizedBox(height: 20,),
                             Expanded(
                               child: Container(
                                 margin: EdgeInsets.symmetric(vertical: 10),
@@ -141,9 +180,6 @@ class _TimerPageState extends State<TimerPage>
                   )
                 : Column(
                     children: <Widget>[
-                      SizedBox(
-                        height: 30,
-                      ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
@@ -213,6 +249,15 @@ class _TimerPageState extends State<TimerPage>
                       setState(() {
                         //if no timer has been set yet
                         if (!_timerSet) {
+
+                          //if no starting timer but sec, min, hour are 0
+                          if(_currentSecond ==0 && _currentMinute ==0 && _currentHour == 0)
+                          {
+                            showZeroTimePickedAlert();
+                            return;
+                          }
+
+
                           _timerDuration = Duration(
                               seconds: _currentSecond,
                               minutes: _currentMinute,
@@ -262,11 +307,13 @@ class _TimerPageState extends State<TimerPage>
                 Expanded(
                   child: ElevatedButton(
                     onPressed: () {
+                      //if a timer is set reset the timer
                       if (_timerSet) {
                         setState(() {
                           _timerSet = false;
                         });
                       } else {
+                        //if no timer is set, just reset the duration picker
                         setState(() {
                           _currentHour = 0;
                           _currentMinute = 0;
@@ -317,6 +364,7 @@ class _TimerPageState extends State<TimerPage>
         ));
   }
 
+  //gets what string to display in button based on timer set
   String getButtonValue() {
     //if timer has to be initialized and started
     if (!_timerSet) {
@@ -333,5 +381,12 @@ class _TimerPageState extends State<TimerPage>
 
     //if timer is running
     return 'Pause';
+  }
+
+  //display an alert telling user he picked time as 0 when starting a timer
+  void showZeroTimePickedAlert()
+  {
+    final snackBar = SnackBar(content: Text('Please pick a non zero time', style: TextStyle(fontSize: 18, color: Colors.grey),), backgroundColor: Color(0xff212121), duration: Duration(seconds: 3),);
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 }
