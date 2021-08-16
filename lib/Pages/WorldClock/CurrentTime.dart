@@ -1,6 +1,6 @@
 import 'package:customclockapp/Pages/WorldClock/SetPrimaryLocation.dart';
 import 'package:customclockapp/Pages/screen2.dart';
-import 'package:customclockapp/Pages/TimerPage.dart';
+import 'package:customclockapp/Pages/Timer/TimerPage.dart';
 import 'package:customclockapp/Utils/TimeZoneMaps.dart';
 import 'package:customclockapp/Pages/WorldClock/AddLocation.dart';
 import 'package:customclockapp/Utils/TimeZoneUtilFunctions.dart';

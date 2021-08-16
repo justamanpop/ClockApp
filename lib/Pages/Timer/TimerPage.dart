@@ -1,7 +1,6 @@
+import 'package:customclockapp/Pages/Timer/AddTimer.dart';
 import 'package:customclockapp/Pages/WorldClock/CurrentTime.dart';
 import 'package:customclockapp/Pages/screen2.dart';
-import 'package:customclockapp/Widgets/RadialDurationPicker.dart';
-import 'package:customclockapp/Widgets/TimerDisplay.dart';
 import 'package:flutter/material.dart';
 import 'package:simple_timer/simple_timer.dart';
 import 'package:numberpicker/numberpicker.dart';
@@ -75,7 +74,12 @@ class _TimerPageState extends State<TimerPage>
           backgroundColor: Colors.black,
           actions: <Widget>[
             IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => AddTimerPage()),
+                  );
+                },
                 tooltip: 'Add a new timer',
                 icon: Icon(
                   Icons.add,
